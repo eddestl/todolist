@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import './assets/app.scss'
 
+//När man klickar på en todo ska den växla mellan avklarad/ej avklarad. Man ska även kunna ta bort en todo.
+
+//Om det inte finns några todos kvar i listan så ska listan inte renderas och man istället får ett 
+// meddelande om att det inte finns några todos (💃🏼🪩🕺🥳).
+
 function App() {
 
   interface TodoItem{
@@ -16,6 +21,12 @@ function App() {
 
 	const doneItems = todos.filter(item => item.done === true)
 	const [inputTodoTitle, setInputTodoTitle] = useState("");
+
+	const handleStatus = (item:TodoItem) => {
+
+   	item.done === !item.done
+    setTodos([...todos]);
+	}
 
 	const handleFormSubmit= (e:React.SubmitEvent) => {
   	e.preventDefault()
@@ -37,20 +48,22 @@ function App() {
 			{todos.length > 0 ? (
 				<ul>
 					{todos.map(item =>
-						<li key={item.id}>
+						<li key={item.id}
+						onClick={handleStatus}>
 							  {item.title} {item.done === true ? "❤️" : "🗑️"}
 						</li>
 					)}
 				</ul>
 			) : (
-				<p>These are not the posts you're looking for.</p>
+				<p>There are no todos. Go take a nap</p>
+
 			)}
 
 <h2>Do you want to add more todos?</h2>
 <form onSubmit={handleFormSubmit}>
 				<div className="input-group mb-3">
 					<input
-						aria-label="Post title"
+						aria-label="TodoItem title"
 						className="form-control"
 						placeholder="write your next sysiphyan task"
           onChange={e =>setInputTodoTitle(e.target.value)}
