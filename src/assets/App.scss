@@ -1,0 +1,40 @@
+@import "bootstrap/dist/css/bootstrap.css";
+body {
+  background-color: #121212;
+  color: #f5f5f5;
+  font-family: system-ui, sans-serif;
+}
+
+.container {
+  padding: 2rem;
+}
+
+a {
+  color: #8ab4f8;
+}
+
+button {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border: 1px solid #333;
+  padding: 0.5rem 1rem;
+}
+
+button:hover {
+  background-color: #2a2a2a;
+}
+
+hr {
+	margin: 3rem 0;
+}
+
+.counter {
+	background-color: #555;
+	margin-bottom: 1.5rem;
+	padding: 1rem 1.5rem;
+}
+
+ul {
+	padding: 1.5rem 2rem;
+	background-color: #555;
+}
