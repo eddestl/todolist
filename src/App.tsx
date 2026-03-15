@@ -1,103 +1,125 @@
-import { useState } from 'react';
+import { useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/app.scss'
-import TodoItemCounter from './components/TodoItemCounter';
+import TodoItemCounter from './components/TodoItemCounter'
+
+interface TodoItem {
+  id: number
+  title: string
+  done: boolean
+}
 
 function App() {
+  const [todos, setTodos] = useState<TodoItem[]>([
+    { id: 1, title: 'Curl hair', done: true },
+    { id: 2, title: 'Paint nails', done: true },
+    { id: 3, title: 'Face mask', done: false },
+  ])
 
-  interface TodoItem{
-  id:number, 
-  title: string;
-  done:boolean
-}
-  	const [todos, setTodos] = useState<TodoItem[]>([
-		{ id: 1, title: "Wash dishes", done: true },
-		{ id: 2, title: "Mop floor", done: true },
-		{ id: 3, title: "Take the trash out", done: false },
-	]);
+  const doneItems = todos.filter((item) => item.done === true)
+  const [inputTodoTitle, setInputTodoTitle] = useState('')
+  const showError = inputTodoTitle.length > 0 && inputTodoTitle.length < 3
 
-	const doneItems = todos.filter(item => item.done === true)
-	const [inputTodoTitle, setInputTodoTitle] = useState("");
-console.log(inputTodoTitle)
-  const showError = inputTodoTitle.length > 0 && inputTodoTitle.length < 3;
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
-	const handleFormSubmit= (e:React.SubmitEvent) => {
-  	e.preventDefault()
-    const newTodoItem: TodoItem = {
-      id:Math.max(0, ... todos.map(todo => todo.id)) + 1 ,title : inputTodoTitle, done: false
+    if (inputTodoTitle.trim().length < 3) {
+      return
     }
 
-	console.log(newTodoItem);
+    const newTodoItem: TodoItem = {
+      id: Math.max(0, ...todos.map((todo) => todo.id)) + 1,
+      title: inputTodoTitle,
+      done: false,
+    }
 
-	setTodos([...todos, newTodoItem]);
- 
-    setInputTodoTitle("");
-	}
+    setTodos([...todos, newTodoItem])
+    setInputTodoTitle('')
+  }
 
-	  const handleToggleDone = (clickedItem: TodoItem) => {
+  const handleToggleDone = (clickedItem: TodoItem) => {
     const updatedItem = {
       ...clickedItem,
-      done: !clickedItem.done
-    };
+      done: !clickedItem.done,
+    }
 
-    setTodos((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === clickedItem.id ? updatedItem : post
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === clickedItem.id ? updatedItem : todo
       )
-    );
-  };
+    )
+  }
 
   return (
-    <>
-	<div>
-    <h2>THESE ARE MY TODOS</h2>
-	<TodoItemCounter done={doneItems.length} total={todos.length}></TodoItemCounter>
-		{todos.length === doneItems.length ?(
-			<p>💃🏼🪩🕺🥳PARTY💃🏼🪩🕺🥳</p>
-		): 
-					<ul>
-				{todos.map(item =>
-					<li key={item.id}
-						onClick={() =>handleToggleDone(item)}
-						style={{
-           					cursor: "pointer",
-            				textDecoration: item.done ? "line-through" : "none"
-          				}}>
-						{item.title} {item.done === true ? "🥳" : "🗑️"}
-					</li>
-				)}
-			</ul>}
-	
+    <div className="todo-app-bg">
+      <div className="container py-5">
+        <div className="todo-card mx-auto shadow-lg">
+          <div className="todo-card-body">
+            <div className="text-center mb-4">
+              <h1 className="todo-title">My Pink Todo List</h1>
+              <p className="todo-subtitle">Tiny tasks, sparkly vibes</p>
+            </div>
 
-			
+            <div className="counter-wrap mb-4">
+              <TodoItemCounter done={doneItems.length} total={todos.length} />
+            </div>
 
-<h2>Do you want to add more todos?</h2>
-<form onSubmit={handleFormSubmit}>
-				<div className="input-group mb-3">
-					<input
-						aria-label="TodoItem title"
-						className="form-control"
-						minLength={2}
-						placeholder="write your next sysiphyan task"
-         				 onChange={e =>setInputTodoTitle(e.target.value)}
-						type="text"
-            			value = {inputTodoTitle}
-					/>
-	
+            {todos.length === doneItems.length ? (
+              <div className="party-box text-center mb-4">
+                <p className="mb-0">🌸✨ Everything is done! ✨🌸</p>
+              </div>
+            ) : (
+              <ul className="todo-list list-unstyled mb-4">
+                {todos.map((item) => (
+                  <li
+                    key={item.id}
+                    className={`todo-item ${item.done ? 'is-done' : ''}`}
+                    onClick={() => handleToggleDone(item)}
+                  >
+                    <span className="todo-text">{item.title}</span>
+                    <span className="todo-icon">
+                      {item.done ? '🌟' : '🎀'}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
 
-					<button
-						className="btn btn-success"
-						type="submit"
-						disabled={inputTodoTitle.length < 3}
-						value={inputTodoTitle}
-					>Create</button>
-				</div>
-			{showError && (
-        <p>Please enter at least 3 letters.</p>
-      )}
-			</form>
-			</div>
-    </>
-    
+            <div className="add-todo-section">
+              <h2 className="add-title">Do you want to add more todos?</h2>
+
+              <form onSubmit={handleFormSubmit}>
+                <div className="input-group todo-input-group">
+                  <input
+                    aria-label="TodoItem title"
+                    className="form-control todo-input"
+                    minLength={2}
+                    placeholder="write your next sisyphean task"
+                    onChange={(e) => setInputTodoTitle(e.target.value)}
+                    type="text"
+                    value={inputTodoTitle}
+                  />
+
+                  <button
+                    className="btn btn-success todo-btn"
+                    type="submit"
+                    disabled={inputTodoTitle.trim().length < 3}
+                  >
+                    Create
+                  </button>
+                </div>
+
+                {showError && (
+                  <p className="todo-error mt-2 mb-0">
+                    Please enter at least 3 letters.
+                  </p>
+                )}
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 

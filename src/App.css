@@ -1,42 +1,189 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+.todo-app-bg {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #ffd6eb 0%, #ffc2df 35%, #f8b4d9 65%, #f3a6d0 100%);
+  display: flex;
+  align-items: center;
+}
+
+.todo-card {
+  max-width: 720px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  overflow: hidden;
+}
+
+.todo-card-body {
   padding: 2rem;
+}
+
+.todo-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #c2185b;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.02em;
+}
+
+.todo-subtitle {
+  color: #9c4971;
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.counter-wrap {
+  background: linear-gradient(135deg, #fff0f7, #ffe0ef);
+  border: 1px solid #f7bfd8;
+  border-radius: 20px;
+  padding: 1rem 1.25rem;
+}
+
+.party-box {
+  background: linear-gradient(135deg, #ffeff8, #ffd7ea);
+  color: #c2185b;
+  border: 2px dashed #ef88b3;
+  border-radius: 20px;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: linear-gradient(135deg, #fff7fb, #ffe9f4);
+  border: 1px solid #f7c5db;
+  border-radius: 18px;
+  padding: 0.95rem 1rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  box-shadow: 0 10px 24px rgba(214, 92, 146, 0.08);
+}
+
+.todo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(214, 92, 146, 0.14);
+  border-color: #ef88b3;
+}
+
+.todo-text {
+  color: #7f3156;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.todo-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.todo-item.is-done {
+  background: linear-gradient(135deg, #ffeaf4, #ffd9ea);
+}
+
+.todo-item.is-done .todo-text {
+  color: #b25a84;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.add-todo-section {
+  background: linear-gradient(135deg, #fff4fa, #ffe8f3);
+  border-radius: 22px;
+  padding: 1.25rem;
+  border: 1px solid #f6cade;
+}
+
+.add-title {
+  color: #c2185b;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.todo-input-group .todo-input {
+  border: 2px solid #f4b7d2;
+  border-radius: 14px 0 0 14px;
+  min-height: 52px;
+  padding-left: 1rem;
+  background-color: #fffafd;
+  color: #7f3156;
+  box-shadow: none;
+}
+
+.todo-input-group .todo-input::placeholder {
+  color: #c27b9e;
+}
+
+.todo-input-group .todo-input:focus {
+  border-color: #e35d9f;
+  box-shadow: 0 0 0 0.25rem rgba(227, 93, 159, 0.2);
+  background-color: #ffffff;
+}
+
+.todo-btn.btn-success {
+  min-width: 120px;
+  border: none;
+  border-radius: 0 14px 14px 0;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ff6fb1, #e8408f);
+  box-shadow: none;
+}
+
+.todo-btn.btn-success:hover,
+.todo-btn.btn-success:focus {
+  background: linear-gradient(135deg, #ff5ea8, #d93284);
+}
+
+.todo-btn.btn-success:disabled {
+  background: linear-gradient(135deg, #efb7d0, #e6a8c5);
+  opacity: 1;
+}
+
+.todo-error {
+  color: #c2185b;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding-left: 0.35rem;
+}
+
+@media (max-width: 576px) {
+  .todo-card-body {
+    padding: 1.25rem;
+  }
+
+  .todo-title {
+    font-size: 1.9rem;
+  }
+
+  .todo-item {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .add-title {
+    font-size: 1.15rem;
+  }
+
+  .todo-btn.btn-success {
+    min-width: 96px;
+  }
+    .todo-counter {
+  background: linear-gradient(135deg, #fff0f7, #ffe4f1);
+  border: 1px solid #f6cade;
+  border-radius: 18px;
+  padding: 0.5rem 1rem;
+  color: #c2185b;
+  font-weight: 600;
   text-align: center;
+  display: inline-block;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
