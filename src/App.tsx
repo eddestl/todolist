@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './assets/app.scss'
-import Confetti from "react-confetti"
+import TodoItemCounter from './components/TodoItemCounter';
 
 function App() {
 
@@ -17,7 +17,6 @@ function App() {
 
 	const doneItems = todos.filter(item => item.done === true)
 	const [inputTodoTitle, setInputTodoTitle] = useState("");
-	const [showConfetti, setShowConfetti] = useState(false)
 
 	const handleFormSubmit= (e:React.SubmitEvent) => {
   	e.preventDefault()
@@ -47,7 +46,7 @@ function App() {
     <>
 	<div>
     <h2>THESE ARE MY TODOS</h2>
-	<h3>I have completed {doneItems.length} / {todos.length}</h3>
+	<TodoItemCounter done={doneItems.length} total={todos.length}></TodoItemCounter>
 		{todos.length === doneItems.length ?(
 			<p>💃🏼🪩🕺🥳PARTY💃🏼🪩🕺🥳</p>
 		): 
