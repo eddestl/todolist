@@ -17,12 +17,16 @@ function App() {
 
 	const doneItems = todos.filter(item => item.done === true)
 	const [inputTodoTitle, setInputTodoTitle] = useState("");
+console.log(inputTodoTitle)
+  const showError = inputTodoTitle.length > 0 && inputTodoTitle.length < 3;
 
 	const handleFormSubmit= (e:React.SubmitEvent) => {
   	e.preventDefault()
     const newTodoItem: TodoItem = {
       id:Math.max(0, ... todos.map(todo => todo.id)) + 1 ,title : inputTodoTitle, done: false
     }
+
+	console.log(newTodoItem);
 
 	setTodos([...todos, newTodoItem]);
  
@@ -58,7 +62,7 @@ function App() {
            					cursor: "pointer",
             				textDecoration: item.done ? "line-through" : "none"
           				}}>
-						{item.title} {item.done === true ? "❤️" : "🗑️"}
+						{item.title} {item.done === true ? "🥳" : "🗑️"}
 					</li>
 				)}
 			</ul>}
@@ -72,18 +76,24 @@ function App() {
 					<input
 						aria-label="TodoItem title"
 						className="form-control"
+						minLength={2}
 						placeholder="write your next sysiphyan task"
-          onChange={e =>setInputTodoTitle(e.target.value)}
+         				 onChange={e =>setInputTodoTitle(e.target.value)}
 						type="text"
-            value = {inputTodoTitle}
-						required
+            			value = {inputTodoTitle}
 					/>
+	
 
 					<button
 						className="btn btn-success"
 						type="submit"
+						disabled={inputTodoTitle.length < 3}
+						value={inputTodoTitle}
 					>Create</button>
 				</div>
+			{showError && (
+        <p>Please enter at least 3 letters.</p>
+      )}
 			</form>
 			</div>
     </>
