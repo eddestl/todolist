@@ -6,7 +6,7 @@ import TodoCounter from "./components/TodoCounter";
 import type { Todo } from "./types/Todo.types";
 import "./assets/App.scss";
 import TodoList from "./components/TodoList";
-import { createTodos, getTodos } from "./services/TodosApi";
+import * as TodosAPI from "./services/TodosApi";
 
 
 
@@ -15,14 +15,15 @@ function App() {
 	const [todos, setTodos] = useState<Todo[] |null>(null);
 	const [error, setError] = useState<string | false>(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const getData = async () => {
+
+	const getTodos = async () => {
       try{
-		const data = await getTodos();
+		const data = await TodosAPI.getTodos();
 
       setTodos(data);
       setIsLoading(false);
   } catch(err){
-      console.error("getData error: ", err)
+      console.error("getTodos error: ", err)
       setError(err instanceof Error ? err.message : "It's not me, it's you")
        setIsLoading(false);
   } 
@@ -30,7 +31,7 @@ function App() {
 
 	const handleAddTodo = async (title: string) => {
 		try{
-			const newTodo = await createTodos({
+			const newTodo = await TodosAPI.createTodos({
 				title:title,
 				completed:false
 			});
@@ -54,7 +55,7 @@ function App() {
 
   useEffect(() => {
 
-   getData();
+   getTodos();
   }, []);
 
 	// Derive list of completed/incompleted todos from the `todos` state
