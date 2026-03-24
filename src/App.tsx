@@ -5,6 +5,8 @@ import TodoCounter from "./components/TodoCounter";
 import type { Todo } from "./types/Todo.types";
 import "./assets/App.scss";
 import TodoList from "./components/TodoList";
+import { getTodos } from "./services/TodosApi";
+
 
 
 function App() {
@@ -13,34 +15,23 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
 	const handleAddTodo = (title: string) => {
-		// Create a new todo and set a new list of todos containing the
-		// previous todos + the new todo
-		setTodos([...todos, {
-			id: Math.max(0, ...todos.map(todo => todo.id)) + 1,
-			title,
-			completed: false,
-		}]);
+		//FIX ME
 	}
 
 	const handleDeleteTodo = (todo: Todo) => {
-		setTodos(todos.filter(t => t.id !== todo.id));
+		//FIX ME
 	}
 
 	const handleToggleTodo = (todo: Todo) => {
-		todo.completed = !todo.completed;
-		setTodos([...todos]);
+		//FIX ME
 	}
 
   useEffect(() => {
 
     const getData = async () => {
       try{
-    //make request to API. Get-anrop till localhost:3000/todos
-      const res = await fetch("http://localhost:3000/todos") // returnerar ett promise om en response. 
-      if(!res.ok){
-        throw new Error("somethings up")
-      }
-      const data = await res.json();
+		const data = await getTodos();
+
       setTodos(data);
       setIsLoading(false);
   } catch(err){
