@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
@@ -10,6 +10,7 @@ interface AddTodoFormProps {
 const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAddTodo }) => {
 	const [inputTodoTitle, setInputTodoTitle] = useState("");
 	const trimmedInputTodoTitle = inputTodoTitle.trim();
+	const inputTodoTitleRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = (e: React.SubmitEvent) => {
 		e.preventDefault();
@@ -17,9 +18,16 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAddTodo }) => {
 		// 🙋 Tell parent that someone wants to create a new todo with the title `trimmedInputTodoTitle`
 		onAddTodo(trimmedInputTodoTitle);
 
+		
 		// Clear input field
 		setInputTodoTitle("");
+		inputTodoTitleRef.current?.focus();
 	}
+
+	useEffect(() => {
+		//Focus on input element after submit
+		inputTodoTitleRef.current?.focus();
+	}, [])
 
 	return (
 		<Form onSubmit={handleSubmit} className="mb-3">
@@ -29,6 +37,7 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAddTodo }) => {
 					onChange={e => setInputTodoTitle(e.target.value)}
 					placeholder="Learn about GTD"
 					value={inputTodoTitle}
+					ref={inputTodoTitleRef}
 					required
 				/>
 				<Button

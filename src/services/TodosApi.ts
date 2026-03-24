@@ -35,10 +35,13 @@ export const createTodos = async (payload:CreateTodoPayload)=> {
 export const updateTodos = async (id:number, payload:UpdateTodoPayload)=> {
     const res = await axios.patch<Todo>(BASE_URL + "/todos/"+ id, payload)
     console.log("id " + id)
-    return res.data;
+    return res.data;    
 }
 
-export const deleteTodos = async (id:number)=> {
+/**
+ * Delete a todo
+ */
+export const deleteTodo = async (id:number)=> {
     const res = await axios.delete<Todo>(BASE_URL + "/todos/"+ id)
     return res.data;
 }

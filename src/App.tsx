@@ -47,9 +47,8 @@ function App() {
 
 	const handleDeleteTodo = async (todo: Todo) => {
 		try{
-			await TodosAPI.deleteTodos(todo.id);
-			console.log("Deleting Todo!");
-			setTodos(prev => prev ? prev.filter(t => t.id !== todo.id) : []);
+			await TodosAPI.deleteTodo(todo.id);
+			await getTodos();
 		} catch (err) {
 			console.error("Error thrown when deleting Todo: ", err)
       		setError( err instanceof Error ? "Could not delete TODO" +err.message : "It's not me, it's you")
