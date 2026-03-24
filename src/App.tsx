@@ -30,12 +30,13 @@ function App() {
 
 	const handleAddTodo = async (title: string) => {
 		try{
-			await createTodos({
+			const newTodo = await createTodos({
 				title:title,
 				completed:false
 			});
 			console.log("created Todo yayy! Reloading todos...");
-			await getData();
+
+			setTodos([...todos ?? [], newTodo])
 		} catch (err) {
 			console.error("Error thrown when creating Todo: ", err)
       		setError( err instanceof Error ? "Could not create TODO" +err.message : "It's not me, it's you")
