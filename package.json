@@ -8,10 +8,12 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix", 
+    "server": "json-server --watch data/db.json --port 3000"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",
+    "json-server": "^0.17.4",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.10",
     "react-confetti": "^6.4.0",

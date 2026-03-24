@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import AddTodoForm from "./components/AddTodoForm";
 import TodoCounter from "./components/TodoCounter";
@@ -6,15 +6,11 @@ import type { Todo } from "./types/Todo.types";
 import "./assets/App.scss";
 import TodoList from "./components/TodoList";
 
-const initialTodos: Todo[] = [
-	{ id: 1, title: "Make coffee", completed: true },
-	{ id: 2, title: "Drink coffee", completed: false },
-	{ id: 3, title: "Drink MOAR coffee", completed: false },
-	{ id: 4, title: "Drink ALL ZE coffee", completed: false },
-];
 
 function App() {
-	const [todos, setTodos] = useState(initialTodos);
+	const [todos, setTodos] = useState<Todo[]>([]);
+  const [error, setError] = useState<string | false>(false);
+  const [isLoading, setIsLoading] = useState(true);
 
 	const handleAddTodo = (title: string) => {
 		// Create a new todo and set a new list of todos containing the
@@ -35,6 +31,27 @@ function App() {
 		setTodos([...todos]);
 	}
 
+  useEffect(() => {
+
+    const getData = async () => {
+      try{
+    //make request to API. Get-anrop till localhost:3000/todos
+      const res = await fetch("http://localhost:3000/todos") // returnerar ett promise om en response. 
+      if(!res.ok){
+        throw new Error("somethings up")
+      }
+      const data = await res.json();
+      setTodos(data);
+      setIsLoading(false);
+  } catch(err){
+      console.error("getData error: ", err)
+      setError(err instanceof Error ? err.message : "It's not me, it's you")
+       setIsLoading(false);
+  } 
+}
+   getData();
+  }, [])
+
 	// Derive list of completed/incompleted todos from the `todos` state
 	const completedTodos = todos.filter(todo => todo.completed);
 	const incompleteTodos = todos.filter(todo => !todo.completed);
@@ -45,7 +62,10 @@ function App() {
 
 			<AddTodoForm onAddTodo={handleAddTodo} />
 
-			{todos.length ? (
+      {isLoading && <p>Loading todo items</p>}
+      
+
+			{!isLoading && !error && ( todos.length ? (
 				<>
 					<h2 className="h5 mb-2">💪🏻 Stuff I got to do</h2>
           <TodoList 
@@ -66,7 +86,8 @@ function App() {
 				</>
 			) : (
 				<p>You ain't got no todos to do, time to party!!111 Untz untz untz 🥳!</p>
-			)}
+			)
+      )}
 		</Container>
 	);
 }
