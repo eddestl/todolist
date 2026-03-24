@@ -45,8 +45,16 @@ function App() {
 		}
 	}
 
-	const handleDeleteTodo = (todo: Todo) => {
-		//FIX ME
+	const handleDeleteTodo = async (todo: Todo) => {
+		try{
+			await TodosAPI.deleteTodos(todo.id);
+			console.log("Deleting Todo!");
+			setTodos(prev => prev ? prev.filter(t => t.id !== todo.id) : []);
+		} catch (err) {
+			console.error("Error thrown when deleting Todo: ", err)
+      		setError( err instanceof Error ? "Could not delete TODO" +err.message : "It's not me, it's you")
+       		setIsLoading(false);
+		}
 	}
 
 	const handleToggleTodo = async (todo: Todo) => {

@@ -37,3 +37,8 @@ export const updateTodos = async (id:number, payload:UpdateTodoPayload)=> {
     console.log("id " + id)
     return res.data;
 }
+
+export const deleteTodos = async (id:number)=> {
+    const res = await axios.delete<Todo>(BASE_URL + "/todos/"+ id)
+    return res.data;
+}
