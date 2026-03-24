@@ -49,8 +49,19 @@ function App() {
 		//FIX ME
 	}
 
-	const handleToggleTodo = (todo: Todo) => {
-		//FIX ME
+	const handleToggleTodo = async (todo: Todo) => {
+		try{
+			const updatedTodo = await TodosAPI.updateTodos(todo.id,{
+				completed : !todo.completed
+			});
+			console.log("Updating toggle!");
+
+			setTodos(prev => prev ? prev.map(todo => todo.id === updatedTodo.id ? updatedTodo : todo): []);
+		} catch (err) {
+			console.error("Error thrown when updating Todo: ", err)
+      		setError( err instanceof Error ? "Could not update TODO" +err.message : "It's not me, it's you")
+       		setIsLoading(false);
+		}
 	}
 
   useEffect(() => {
