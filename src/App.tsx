@@ -10,7 +10,7 @@ import { getTodos } from "./services/TodosApi";
 
 
 function App() {
-	const [todos, setTodos] = useState<Todo[]>([]);
+	const [todos, setTodos] = useState<Todo[] |null>(null);
   const [error, setError] = useState<string | false>(false);
   const [isLoading, setIsLoading] = useState(true);
 
