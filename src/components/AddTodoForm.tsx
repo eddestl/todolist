@@ -21,6 +21,7 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAddTodo }) => {
 		
 		// Clear input field
 		setInputTodoTitle("");
+		//Focus on input element after submit
 		inputTodoTitleRef.current?.focus();
 	}
 
